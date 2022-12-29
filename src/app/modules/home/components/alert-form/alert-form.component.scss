@@ -1,0 +1,48 @@
+.container {
+    position: relative;
+    width: 100%;
+    padding: 132px 0;
+}
+
+.alert-top {
+    text-align: center;
+
+    &__image {
+        width: 240px;
+        height: auto;
+    }
+}
+
+.alert-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 64px;
+    margin-top: 16px;
+
+    &__logo {
+        width: 39px;
+        height: 39px;
+    }
+
+    &__message {
+        margin-left: 16px;
+        font-family: 'Prelo';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 26px;
+        line-height: 24px;
+        color: #000000;
+        text-align: center;
+    }
+}
+
+@media(max-width: 576px) {
+    .alert-bottom {
+        padding: 0;
+
+        &__message {
+            font-size: 16px;
+        }
+    }
+}

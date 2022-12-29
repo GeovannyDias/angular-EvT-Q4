@@ -28,6 +28,10 @@ export class RegisterFormComponent implements OnInit {
   checkSelected: boolean[] = [false, false];
   isConditionAcepted: boolean = false;
 
+  isDisabled: boolean = false; // Pending
+  isError: boolean = false;
+  showForm: boolean = true;
+
   constructor(
     private fb: FormBuilder,
     private productsService: ProductsService,
@@ -155,6 +159,7 @@ export class RegisterFormComponent implements OnInit {
     console.log(this.formCustomer.value);
     if (this.formCustomer.valid) {
       if (this.isConditionAcepted) {
+        this.isDisabled = true;
         this.postCustomer(this.formCustomer.value);
       } else {
         alert("Acepte términos y condiciones");
@@ -166,16 +171,41 @@ export class RegisterFormComponent implements OnInit {
 
 
   postCustomer(data: CustomerCatalogI) {
-    this.customerService.postCustomer(data).subscribe(res => {
-      this.formCustomer.reset();
-      alert("Datos guardados exitosamente.");
-    });
+    this.customerService.postCustomer(data).subscribe({
+      next: res => {
+        console.log('POST:', res);
+        this.alertSuccess();
+      },
+      error: e => {
+        console.log('ERROR POST:', e);
+        this.alertError();
+      },
+      complete: () => console.info('complete')
+    }
+    );
   }
 
-  resetForm(){
+  resetForm() {
+    this.showForm = true;
     this.formCustomer.reset();
     this.productos.clear();
+    this.isDisabled = false;
+    this.checkSelected = [false, false];
   }
+
+  alertSuccess() {
+    this.formCustomer.reset();
+    this.productos.clear();
+    this.showForm = false;
+    this.isError = false;
+  }
+
+  alertError() {
+    this.showForm = false;
+    this.isError = true;
+  }
+
+
 
 
 
